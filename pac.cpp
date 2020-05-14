@@ -798,6 +798,20 @@ glEnd();
 }
 int main(int argc,char **argv)
 {
+ //MENU CODE
+int menuopt;
+std::cout<<"1. Instructions"<<std::endl<<"2. Play Game"<<std::endl;
+std::cin>>menuopt;
+switch(menuopt)
+{
+    case 1: std::cout<<"Instructions"<<std::endl<<"Playing as Pacman,the hero, your goal is to eat all the Pac-dots. In each corner of the room there is a Power Pellet, which when Pacman eats one, the Ghosts turn blue or yellow. Pacman can get extra points by eating the Ghosts. The first one is worth 200 points and each additional Ghost eaten is worth double the number of points. "<<std::endl;
+            std::cout<<"You are given three lives. Avoid the monsters at all cost."<<std::endl;
+            std::cout<<"UP ARROW - North \t DOWN ARROW - South \t LEFT ARROW - West \t RIGHT ARROW - East \t ";
+            break;
+    case 2: std::cout<<"Play Game ";
+            break;
+    default:std::cout<<"Please enter a valid option";
+}   
 glutInit(&argc,argv);
 glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
 glutInitWindowSize(1200, 780);
