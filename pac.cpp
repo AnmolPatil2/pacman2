@@ -798,57 +798,69 @@ glEnd();
 }
 int main(int argc,char **argv)
 {
- //MENU CODE
-int menuopt;
-std::cout<<"1. Instructions"<<std::endl<<"2. Play Game"<<std::endl;
-std::cin>>menuopt;
-switch(menuopt)
 {
-    case 1: std::cout<<"Instructions"<<std::endl<<"Playing as Pacman,the hero, your goal is to eat all the Pac-dots. In each corner of the room there is a Power Pellet, which when Pacman eats one, the Ghosts turn blue or yellow. Pacman can get extra points by eating the Ghosts. The first one is worth 200 points and each additional Ghost eaten is worth double the number of points. "<<std::endl;
-            std::cout<<"You are given three lives. Avoid the monsters at all cost."<<std::endl;
-            std::cout<<"UP ARROW - North \t DOWN ARROW - South \t LEFT ARROW - West \t RIGHT ARROW - East \t ";
-            break;
-    case 2: std::cout<<"Play Game ";
-            break;
-    default:std::cout<<"Please enter a valid option";
-}   
-glutInit(&argc,argv);
-glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
-glutInitWindowSize(1200, 780);
-glutInitWindowPosition(0,0);glutCreateWindow("Pac GL 3D");
-init();
-glutDisplayFunc(RenderScene);
-create_list_lib();
-glutKeyboardFunc(mykey);
-glutSpecialFunc(specialDown);
-glutSpecialUpFunc(specialUp);
-glEnable(GL_DEPTH_TEST);
-int start_x[4] = {11,12,15,16};
-for (int ISO = 0; ISO < num_ghosts; ISO++)
-{
-ghost[ISO] = new Ghost(start_x[ISO],14);
+        //MENU CODE
+        int menuopt;
+        std::cout << "1. Instructions" << std::endl
+                  << "2. Play Game" << std::endl;
+        do
+        {
+                std::cout << "Enter your choice : ";
+                std::cin >> menuopt;
+                switch (menuopt)
+                {
+                case 1:
+                        std::cout << "Instructions" << std::endl
+                                  << "Playing as Pacman,the hero, your goal is to eat all the Pac-dots. In each corner of the room there is a Power Pellet, which when Pacman eats one, the Ghosts turn blue or yellow. Pacman can get extra points by eating the Ghosts. The first one is worth 200 points and each additional Ghost eaten is worth double the number of points. " << std::endl;
+                        std::cout << "You are given three lives. Avoid the monsters at all cost." << std::endl;
+                        std::cout << "UP ARROW - North \t DOWN ARROW - South \t LEFT ARROW - West \t RIGHT ARROW - East \t " << std::endl;
+                        break;
+                case 2:
+                        std::cout << "Play Game ";
+                        break;
+                default:
+                        std::cout << "Please enter a valid option" << std::endl;
+                }
+        } while (menuopt != 2);
+        glutInit(&argc, argv);
+        glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+        glutInitWindowSize(1200, 780);
+        glutInitWindowPosition(0, 0);
+        glutCreateWindow("Pac GL 3D");
+        init();
+        glutDisplayFunc(RenderScene);
+        create_list_lib();
+        glutKeyboardFunc(mykey);
+        glutSpecialFunc(specialDown);
+        glutSpecialUpFunc(specialUp);
+        glEnable(GL_DEPTH_TEST);
+        int start_x[4] = {11, 12, 15, 16};
+        for (int ISO = 0; ISO < num_ghosts; ISO++)
+        {
+                ghost[ISO] = new Ghost(start_x[ISO], 14);
+        }
+        float ghost_colors[4][3] = {{255, 0, 0}, {120, 240, 120}, {255, 200, 200}, {255, 125, 0}};
+        int ISO;
+        for (ISO = 0; ISO < num_ghosts; ISO++)
+        {
+                ghost[ISO]->x = start_x[ISO];
+                ghost[ISO]->y = 14;
+                ghost[ISO]->eaten = false;
+                ghost[ISO]->max_speed = 0.1 - 0.01 * (float)ISO;
+                ghost[ISO]->speed = ghost[ISO]->max_speed;
+                //colorize ghosts
+                for (int j = 0; j < 3; j++)
+                        ghost[ISO]->color[j] = ghost_colors[ISO][j] / 255.0f;
+        }
+        for (ISO = 0; ISO < BOARD_X; ISO++)
+        {
+                for (int j = 0; j < BOARD_Y; j++)
+                {
+                        tp_array[ISO][j] = pebble_array[ISO][j];
+                }
+        }
+        pebbles_left = 244;
+        glShadeModel(GL_SMOOTH);
+        glutMainLoop();
+        return 0;
 }
-float ghost_colors[4][3] = {{255,0,0},{120,240,120},{255,200,200},{255,125,0}};
-int ISO;
-for (ISO = 0; ISO < num_ghosts; ISO++)
-{
-ghost[ISO]->x = start_x[ISO];
-ghost[ISO]->y = 14;
-ghost[ISO]->eaten = false;
-ghost[ISO]->max_speed = 0.1 - 0.01*(float)ISO;
-ghost[ISO]->speed = ghost[ISO]->max_speed;
-//colorize ghosts
-for (int j = 0; j < 3; j++)
-ghost[ISO]->color[j] = ghost_colors[ISO][j]/255.0f;
-}
-for ( ISO = 0; ISO < BOARD_X; ISO++)
-{
-for (int j = 0; j < BOARD_Y; j++)
-{
-tp_array[ISO][j] = pebble_array[ISO][j];
-}
-}
-pebbles_left = 244;
-glShadeModel(GL_SMOOTH);
-glutMainLoop();
-return 0;}
